@@ -76,7 +76,7 @@ if ($tipo == "registrar") {
                         // caso de administrador y director
                         $arr_Respuesta = array('status' => true, 'mensaje' => 'Registro Exitoso');
                     } else {
-                        $arr_Respuesta = array('status' => false, 'mensaje' => 'Error al registrar producto');
+                        $arr_Respuesta = array('status' => false, 'mensaje' => 'Error al registrar usuario');
                     }
                 }
             }
