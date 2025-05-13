@@ -165,6 +165,4 @@ function cargar_sede_filtro(sedes) {
     document.getElementById('busqueda_tabla_sede').innerHTML = lista_sede;
 }
 
-
-
 // ------------------------------------------- FIN DE DATOS DE CARGA PARA FILTRO DE BUSQUEDA -----------------------------------------------
