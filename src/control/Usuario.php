@@ -204,31 +204,40 @@ if ($tipo == "sent_email_password") {
                 $mail->CharSet = 'UTF-8';                                 
                 $mail->Subject = 'Cambio de contraseña - Sistema de Inventario';
                 $mail->Body    = '
-                <!DOCTYPE html>
+     <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Correo Empresarial</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background-color: #f4f4f4;
+      background-color: #f8f5fa;
     }
     .container {
       max-width: 600px;
       margin: auto;
       background-color: #ffffff;
       font-family: Arial, sans-serif;
-      color: #333333;
-      border: 1px solid #dddddd;
+      color: #4a005e;
+      border: 1px solid #e0cdee;
     }
     .header {
-      background-color: #004aad;
+      background-color: #800080;
       color: white;
       padding: 20px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+    }
+    .header img {
+      height: 40px;
+      margin-right: 15px;
+    }
+    .header h2 {
+      font-size: 24px;
+      margin: 0;
     }
     .content {
       padding: 30px;
@@ -239,11 +248,11 @@ if ($tipo == "sent_email_password") {
     }
     .content p {
       font-size: 16px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
     .button {
       display: inline-block;
-      background-color: #004aad;
+      background-color: #a64ca6;
       color: #ffffff !important;
       padding: 12px 25px;
       margin: 20px 0;
@@ -251,14 +260,21 @@ if ($tipo == "sent_email_password") {
       border-radius: 4px;
     }
     .footer {
-      background-color: #eeeeee;
+      background-color: #f0e6f5;
       text-align: center;
       padding: 15px;
       font-size: 12px;
-      color: #666666;
+      color: #7a4f8a;
     }
     @media screen and (max-width: 600px) {
-      .content, .header, .footer {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header img {
+        margin-bottom: 10px;
+      }
+      .content, .footer {
         padding: 15px !important;
       }
       .button {
@@ -270,22 +286,23 @@ if ($tipo == "sent_email_password") {
 <body>
   <div class="container">
     <div class="header">
-      <h2>Nombre de tu empresa</h2>
+      <img src="https://static.wikia.nocookie.net/cholopedia/images/3/34/Belcorp.jpg/revision/latest/scale-to-width-down/220?cb=20170810185635&path-prefix=es" alt="Logo Cosmetic Belcorp" />
+      <h2>Cosmetic Belcorp</h2>
     </div>
     <div class="content">
       <h1>Hola [Nombre del cliente],</h1>
       <p>
-        Te saludamos cordialmente. Queremos informarte sobre nuestras últimas novedades y promociones exclusivas para ti.
+        Esperamos que te encuentres bien. Tenemos nuevas noticias y beneficios pensados especialmente para ti.
       </p>
       <p>
-        ¡No te pierdas nuestras ofertas especiales por tiempo limitado!
+        Disfruta de nuestras promociones moradas exclusivas solo por tiempo limitado.
       </p>
-      <a href="https://www.tusitio.com/promocion" class="button">Ver más</a>
-      <p>Gracias por confiar en nosotros.</p>
+      <a href="https://www.tusitio.com/promocion" class="button">Descúbrelo</a>
+      <p>Gracias por seguir siendo parte de nuestra comunidad.</p>
     </div>
     <div class="footer">
-      © 2025 Nombre de tu empresa. Todos los derechos reservados.<br>
-      <a href="https://www.tusitio.com/desuscribirse">Cancelar suscripción</a>
+      © 2025 Cosmetic Belcorp. Todos los derechos reservados.<br />
+      <a href="https://www.tusitio.com/desuscribirse" style="color:#7a4f8a;">Cancelar suscripción</a>
     </div>
   </div>
 </body>
