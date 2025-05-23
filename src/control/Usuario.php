@@ -221,7 +221,7 @@ if ($tipo == "sent_email_password") {
       margin: auto;
       background-color: #ffffff;
       font-family: Arial, sans-serif;
-      color: #4a005e;
+      color:#3d2d87;
       border: 1px solid #e0cdee;
     }
     .header {
@@ -232,8 +232,9 @@ if ($tipo == "sent_email_password") {
       align-items: center;
     }
     .header img {
-      height: 40px;
-      margin-right: 15px;
+      height: 80px;
+      margin-right: 20px;
+
     }
     .header h2 {
       font-size: 24px;
@@ -286,7 +287,7 @@ if ($tipo == "sent_email_password") {
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://static.wikia.nocookie.net/cholopedia/images/3/34/Belcorp.jpg/revision/latest/scale-to-width-down/220?cb=20170810185635&path-prefix=es" alt="Logo Cosmetic Belcorp" />
+      <img src="https://www.capturaconsulting.com/wp-content/uploads/2018/02/belcorp-logo.png" alt="Logo Cosmetic Belcorp" />
       <h2>Cosmetic Belcorp</h2>
     </div>
     <div class="content">
