@@ -204,61 +204,73 @@ if ($tipo == "sent_email_password") {
                 $mail->CharSet = 'UTF-8';                                 
                 $mail->Subject = 'Cambio de contraseña - Sistema de Inventario';
                 $mail->Body    = '
-     <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Correo Empresarial</title>
+  <title>Email COSMETIC GYANE</title>
   <style>
     body {
       margin: 0;
       padding: 0;
       background-color: #f8f5fa;
+      font-family: sans-serif;
     }
     .container {
       max-width: 600px;
       margin: auto;
       background-color: #ffffff;
-      font-family: Arial, sans-serif;
-      color:#3d2d87;
-      border: 1px solid #e0cdee;
+      border: 1px solid #e0cdee; /* Borde suave */
+      border-radius: 12px; /* Esquinas redondeadas */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra */
     }
     .header {
-      background-color: #800080;
+      background-color: rgb(57, 42, 119); /* Fondo morado */
       color: white;
       padding: 20px;
       display: flex;
-      align-items: center;
+      align-items: center; /* Alinea verticalmente */
+      justify-content: center; /* Centra el contenido */
     }
     .header img {
-      height: 80px;
+      height: 100px; /* Tamaño del logo */
       margin-right: 20px;
-
     }
     .header h2 {
-      font-size: 24px;
+      font-size: 30px;
       margin: 0;
+      font-family: serif; /* Tipo de letra cambiado */
+      text-align: center; /* Centra el texto */
+      line-height: 100px; /* Alinea verticalmente con el logo */
+      color: #d78c49; /* Color mostaza */
     }
     .content {
       padding: 30px;
     }
     .content h1 {
-      font-size: 22px;
+      font-size: 24px; /* Aumenta el tamaño del encabezado */
       margin-bottom: 20px;
+      color: rgb(57, 42, 119); /* Color del encabezado */
     }
     .content p {
       font-size: 16px;
       line-height: 1.6;
+      margin-bottom: 15px; /* Espacio entre párrafos */
     }
     .button {
       display: inline-block;
-      background-color: #a64ca6;
-      color: #ffffff !important;
+      background-color: rgb(57, 42, 119); /* Botón color */
+      color: #d78c49 !important;
       padding: 12px 25px;
       margin: 20px 0;
       text-decoration: none;
       border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra en el botón */
+      transition: background-color 0.3s; /* Transición suave */
+    }
+    .button:hover {
+      background-color: #4b3c8f; /* Color de fondo al pasar el ratón */
     }
     .footer {
       background-color: #f0e6f5;
@@ -267,14 +279,15 @@ if ($tipo == "sent_email_password") {
       font-size: 12px;
       color: #7a4f8a;
     }
+        .banner {
+      background-color: #d78c49; /* Color del banner */
+      color: white;
+      text-align: center;
+      padding: 10px; /* Ajusta el padding */
+      font-size: 18px; /* Tamaño de texto reducido */
+    }
+   
     @media screen and (max-width: 600px) {
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .header img {
-        margin-bottom: 10px;
-      }
       .content, .footer {
         padding: 15px !important;
       }
@@ -287,23 +300,20 @@ if ($tipo == "sent_email_password") {
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://www.capturaconsulting.com/wp-content/uploads/2018/02/belcorp-logo.png" alt="Logo Cosmetic Belcorp" />
-      <h2>Cosmetic Belcorp</h2>
+      <img src="https://png.pngtree.com/png-clipart/20220509/original/pngtree-beauty-logo-png-image_7690272.png" alt="Logo COSMETIC GYANE" />
+      <h2>COSMETIC GYANE</h2>
+    </div>
+     <div class="banner">
+      ¡Aprovecha un 20% de descuento en tu primera compra!
     </div>
     <div class="content">
-      <h1>Hola [Nombre del cliente],</h1>
-      <p>
-        Esperamos que te encuentres bien. Tenemos nuevas noticias y beneficios pensados especialmente para ti.
-      </p>
-      <p>
-        Disfruta de nuestras promociones moradas exclusivas solo por tiempo limitado.
-      </p>
-      <a href="https://www.tusitio.com/promocion" class="button">Descúbrelo</a>
-      <p>Gracias por seguir siendo parte de nuestra comunidad.</p>
+      <h1>Hola, Jasmina Avalos!</h1>
+      <p>¡Gracias por unirte a COSMETIC GYANE! Estamos felices de tenerte con nosotros.</p>
+      <p>En <strong>COSMETIC GYANE</strong>, encontrarás productos de cuidado personal cosmeticos de alta calidad y belleza. ¡Pronto recibirás nuestras novedades y ofertas exclusivas!</p>
+      <a href="#" class="button">Visita nuestra tienda</a>
     </div>
     <div class="footer">
-      © 2025 Cosmetic Belcorp. Todos los derechos reservados.<br />
-      <a href="https://www.tusitio.com/desuscribirse" style="color:#7a4f8a;">Cancelar suscripción</a>
+      © 2025 COSMETIC GYANE. Todos los derechos reservados.<br />
     </div>
   </div>
 </body>
