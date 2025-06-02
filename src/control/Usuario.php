@@ -222,56 +222,64 @@ if ($tipo == "sent_email_password") {
       max-width: 600px;
       margin: auto;
       background-color: #ffffff;
-      border: 1px solid #e0cdee; /* Borde suave */
-      border-radius: 12px; /* Esquinas redondeadas */
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+      border: 1px solid #e0cdee;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
     .header {
-      background-color: rgb(57, 42, 119); /* Fondo morado */
+      background-color: rgb(57, 42, 119);
       color: white;
       padding: 20px;
       display: flex;
-      align-items: center; /* Alinea verticalmente */
-      justify-content: center; /* Centra el contenido */
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-wrap: wrap;
     }
     .header img {
-      height: 100px; /* Tamaño del logo */
+      height: 100px;
       margin-right: 20px;
     }
     .header h2 {
       font-size: 30px;
       margin: 0;
-      font-family: serif; /* Tipo de letra cambiado */
-      text-align: center; /* Centra el texto */
-      line-height: 100px; /* Alinea verticalmente con el logo */
-      color: #d78c49; /* Color mostaza */
+      font-family: serif;
+      line-height: 100px;
+      color: #d78c49;
+    }
+    .banner {
+      background-color: #d78c49;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 18px;
     }
     .content {
       padding: 30px;
     }
     .content h1 {
-      font-size: 24px; /* Aumenta el tamaño del encabezado */
+      font-size: 24px;
       margin-bottom: 20px;
-      color: rgb(57, 42, 119); /* Color del encabezado */
+      color: rgb(57, 42, 119);
     }
     .content p {
       font-size: 16px;
       line-height: 1.6;
-      margin-bottom: 15px; /* Espacio entre párrafos */
+      margin-bottom: 15px;
     }
     .button {
       display: inline-block;
-      background-color: rgb(57, 42, 119); /* Botón color */
+      background-color: rgb(57, 42, 119);
       color: #d78c49 !important;
       padding: 12px 25px;
       margin: 20px 0;
       text-decoration: none;
       border-radius: 4px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra en el botón */
-      transition: background-color 0.3s; /* Transición suave */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s;
     }
     .button:hover {
-      background-color: #4b3c8f; /* Color de fondo al pasar el ratón */
+      background-color: #4b3c8f;
     }
     .footer {
       background-color: #f0e6f5;
@@ -280,20 +288,25 @@ if ($tipo == "sent_email_password") {
       font-size: 12px;
       color: #7a4f8a;
     }
-        .banner {
-      background-color: #d78c49; /* Color del banner */
-      color: white;
-      text-align: center;
-      padding: 10px; /* Ajusta el padding */
-      font-size: 18px; /* Tamaño de texto reducido */
-    }
-   
+
     @media screen and (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        align-items: center;
+      }
+      .header img {
+        margin: 0 0 10px 0;
+      }
+      .header h2 {
+        line-height: normal;
+        font-size: 26px;
+      }
       .content, .footer {
         padding: 15px !important;
       }
       .button {
         padding: 10px 20px !important;
+        font-size: 14px;
       }
     }
   </style>
@@ -304,13 +317,13 @@ if ($tipo == "sent_email_password") {
       <img src="https://png.pngtree.com/png-clipart/20220509/original/pngtree-beauty-logo-png-image_7690272.png" alt="Logo COSMETIC GYANE" />
       <h2>COSMETIC GYANE</h2>
     </div>
-     <div class="banner">
+    <div class="banner">
       ¡Aprovecha un 20% de descuento en tu primera compra!
     </div>
     <div class="content">
       <h1>Hola '. $nombreusuario .'</h1>
       <p>¡Gracias por unirte a COSMETIC GYANE! Estamos felices de tenerte con nosotros.</p>
-      <p>En <strong>COSMETIC GYANE</strong>, encontrarás productos de cuidado personal cosmeticos de alta calidad y belleza. ¡Pronto recibirás nuestras novedades y ofertas exclusivas!</p>
+      <p>En <strong>COSMETIC GYANE</strong>, encontrarás productos de cuidado personal cosméticos de alta calidad y belleza. ¡Pronto recibirás nuestras novedades y ofertas exclusivas!</p>
       <a href="#" class="button">Visita nuestra tienda</a>
     </div>
     <div class="footer">
@@ -319,6 +332,7 @@ if ($tipo == "sent_email_password") {
   </div>
 </body>
 </html>
+
                 ';
            
 
