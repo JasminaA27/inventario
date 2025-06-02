@@ -162,6 +162,7 @@ if ($tipo == "sent_email_password") {
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
         $datos_sesion = $objSesion->buscarSesionLoginById($id_sesion);
         $datos_usuario = $objUsuario->buscarUsuarioById($datos_sesion->id_usuario);
+        $nombreusuario = $datos_usuario->nombres_apellidos;
         $llave = $objAdmin->generar_llave(30);
         $token = password_hash($llave, PASSWORD_DEFAULT);
         $update = $objUsuario->updateResetPassword($datos_sesion->id_usuario, $llave, 1);
@@ -307,7 +308,7 @@ if ($tipo == "sent_email_password") {
       ¡Aprovecha un 20% de descuento en tu primera compra!
     </div>
     <div class="content">
-      <h1>Hola, Jasmina Avalos!</h1>
+      <h1>Hola '. $nombreusuario .'</h1>
       <p>¡Gracias por unirte a COSMETIC GYANE! Estamos felices de tenerte con nosotros.</p>
       <p>En <strong>COSMETIC GYANE</strong>, encontrarás productos de cuidado personal cosmeticos de alta calidad y belleza. ¡Pronto recibirás nuestras novedades y ofertas exclusivas!</p>
       <a href="#" class="button">Visita nuestra tienda</a>
