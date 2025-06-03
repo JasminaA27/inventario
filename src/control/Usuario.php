@@ -4,6 +4,19 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+
+ if ($tipo == "validar_datos_reset_password") {
+  $id = $_POST['id'];
+  $token_email = $_POST['token'];
+  $arr_Respuesta = array('status'=> false, 'msg' => 'Link Caducado');
+  $datos_usuario = $objUsuario->buscarUsuarioById($id_email);
+  if ($datos_usuario->reset_password==1 && password_verify($datos_usuario->token_password, $token_email) ) {
+    $arr_Respuesta = array('status'=> true, 'msg' => 'Ok');
+  }
+  echo json_encode($arr_Respuesta);
+}
+
+
 session_start();
 require_once('../model/admin-sesionModel.php');
 require_once('../model/admin-usuarioModel.php');
@@ -286,7 +299,7 @@ if ($tipo == "sent_email_password") {
       text-align: center;
       padding: 15px;
       font-size: 12px;
-      color: #7a4f8a;
+      color:rgb(57, 42, 119);
     }
 
     @media screen and (max-width: 600px) {
@@ -318,13 +331,13 @@ if ($tipo == "sent_email_password") {
       <h2>COSMETIC GYANE</h2>
     </div>
     <div class="banner">
-      ¡Aprovecha un 20% de descuento en tu primera compra!
+      ¡Cambia tu contraseña para mas seguridad!
     </div>
     <div class="content">
       <h1>Hola '. $nombreusuario .'</h1>
-      <p>¡Gracias por unirte a COSMETIC GYANE! Estamos felices de tenerte con nosotros.</p>
-      <p>En <strong>COSMETIC GYANE</strong>, encontrarás productos de cuidado personal cosméticos de alta calidad y belleza. ¡Pronto recibirás nuestras novedades y ofertas exclusivas!</p>
-      <a href="#" class="button">Visita nuestra tienda</a>
+      <p>¡Gracias por unirte a COSMETIC GYANE! Te informamos que tu contraseña ha sido actualizada exitosamente. Si no realizaste este cambio, por favor contáctanos de inmediato.</p>
+      <p>En <strong>COSMETIC GYANE</strong>, Para mayor seguridad, te recomendamos que cambies tu contraseña regularmente. Si deseas cambiarla nuevamente, puedes hacerlo a través del siguiente enlace:!</p>
+      <a href="'.BASE_URL.'reset-password?data='.$datos_usuario->id.'&data2='.$token.'" class="button">cambiar contraseña </a>
     </div>
     <div class="footer">
       © 2025 COSMETIC GYANE. Todos los derechos reservados.<br />
