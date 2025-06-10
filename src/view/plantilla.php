@@ -7,6 +7,11 @@ require_once "./src/control/vistas_control.php";
 $mostrar = new vistasControlador();
 $vista = $mostrar->obtenerVistaControlador();
 
+$resert = '';
+if ($vista == "reset-password") {
+    $reset = "reset-password";
+}
+
 if (isset($_SESSION['sesion_id']) && isset($_SESSION['sesion_token'])) {
 
     $curl = curl_init(); //inicia la sesión cURL
@@ -42,6 +47,9 @@ if (isset($_SESSION['sesion_id']) && isset($_SESSION['sesion_token'])) {
         //echo $response;
         $vista = "login";
     }
+}
+if ($reset == "reset-password") {
+    $vista = "reset-password";
 }
 
 if ($vista == "login" || $vista == "404"|| $vista == "reset-password") {

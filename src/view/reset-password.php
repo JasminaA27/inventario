@@ -8,7 +8,7 @@
     body {
       margin: 0;
       padding: 0;
-      background: #f5f7fa;
+      background:rgb(58, 52, 83);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       justify-content: center;
@@ -71,6 +71,7 @@
 
     .container button:hover {
       background-color: #c47b3e;
+
     }
 
     .container a {
@@ -88,16 +89,16 @@
 </head>
 <body>
   <input type="hidden" id="data" value="<?php echo $_GET['data'] ?>">
-  <input type="hidden" id="data2" value="<?php echo $_GET['data2'] ?>">
+  <input type="hidden" id="data2" value="<?php echo urldecode($_GET['data2']); ?>">
 
   <div class="container">
     <h1>Restablecer Contraseña</h1>
     <img src="https://png.pngtree.com/png-clipart/20220509/original/pngtree-beauty-logo-png-image_7690272.png" alt="Logo">
-    <h4>SCOSMETIC GYANE</h4>
+    <h4>COSMETIC GYANE</h4>
     <form id="frm_reset_password">
-      <input type="password" name="password" placeholder="Nueva contraseña" required>
-      <input type="password" name="confirm_password" placeholder="Confirmar contraseña" required>
-      <button type="submit">Actualizar</button>
+      <input type="password" id="password" placeholder="Nueva contraseña" required>
+      <input type="password" id="password1" placeholder="Confirmar contraseña" required>
+      <button type="button" onclick="validar_imputs_password()";>Actualizar</button>
     </form>
   </div>
 
@@ -106,6 +107,11 @@
     const base_url_server = '<?php echo BASE_URL_SERVER; ?>';
   </script>
   <script src="<?php echo BASE_URL; ?>src/view/js/principal.js"></script>
-  <script src="<?php echo BASE_URL ?>src/view/pp/plugins/sweetalert2/sweetalert2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    validar_datos_reset_password();
+  </script>
+
 </body>
 </html>

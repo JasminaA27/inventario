@@ -166,13 +166,14 @@ function cargar_sede_filtro(sedes) {
 }
 
 // ------------------------------------------- FIN DE DATOS DE CARGA PARA FILTRO DE BUSQUEDA -----------------------------------------------
- async function validar_datos_reset_password(params) {
+async function validar_datos_reset_password(params) {
     let id = document.getElementById('data').value;
     let token = document.getElementById('data2').value;
     const formData = new FormData();
-    formData.append('id',id);
-    formData.append('token',token);
-      try {
+    formData.append('id', id);
+    formData.append('token', token);
+    formData.append('sesion', '');
+    try {
         let respuesta = await fetch(base_url_server + 'src/control/Usuario.php?tipo=validar_datos_reset_password', {
             method: 'POST',
             mode: 'cors',
@@ -180,12 +181,56 @@ function cargar_sede_filtro(sedes) {
             body: formData
         });
         let json = await respuesta.json();
-        if (json.status) {
+        if (json.status == false) {
+            Swal.fire({
+                type: 'error',
+                title: 'Error de Link',
+                text: "Link caducado, verifique su correo",
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                footer: '',
+                timer: 1000
+            });
+            //let formulario = document.getElementById('frm_reset_password');
+            //formulario.innerHTML=`texto de prueba`;
+            //location.replace(base_url + "login");
         }
         //console.log(respuesta);
     } catch (e) {
         console.log("Error al validar datos" + e);
     }
+
+
+}
+function validar_imputs_password() {
+    let pass1 = document.getElementById('password').value;
+    let pass2 = document.getElementById('password1').value;
+    if (pass1 !== pass2) {
+        Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: "Contraseña no coincide",
+                footer: '',
+                timer: 1500
+        })
+        return;
+    }
+    if (pass1.length<8 && pass2.length<8) {
+        Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: "la contraseña tiene que tener 8 caracteres",
+                footer: '',
+                timer: 1500
+        })
+        return;
+    } else {
+        actualizar_password();
+    }
     
-    
+}
+async function actualizar_password(params) {
+    //enviar informacion de password y id al controlador usuario
+    // en el conttrolador recibir informacion y encriptar la nueva contrseña
+    // guardar en base de datos y actualizar campo de reset_password= 0 y token_password= 'vacio'
+    // notificar a usuario sobre el estado del proceso
 }
