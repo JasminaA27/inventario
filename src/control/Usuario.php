@@ -1,9 +1,7 @@
 <?php
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
 
 session_start();
 require_once('../model/admin-sesionModel.php');
@@ -28,15 +26,55 @@ $id_sesion = $_POST['sesion'];
 $token = $_POST['token'];
 
 if ($tipo == "validar_datos_reset_password") {
-  $id_email = $_POST['id'];
-  $token_email = $_POST['token'];
-  $arr_Respuesta = array('status' => false, 'msg' => 'Link Caducado');
-  $datos_usuario = $objUsuario->buscarUsuarioById($id_email);
-  if ($datos_usuario->reset_password == 1 && password_verify($datos_usuario->token_password, $token_email)) {
-    $arr_Respuesta = array('status' => true, 'msg' => 'Ok');
-  }
-  echo json_encode($arr_Respuesta);
+    $id_email = $_POST['id'];
+    $token_email = $_POST['token'];
+    $arr_Respuesta = array('status' => false, 'msg' => 'Link Caducado');
+    $datos_usuario = $objUsuario->buscarUsuarioById($id_email);
+    
+    if ($datos_usuario->reset_password == 1 && password_verify($datos_usuario->token_password, $token_email)) {
+        $arr_Respuesta = array('status' => true, 'msg' => 'Ok');
+    }
+    echo json_encode($arr_Respuesta);
 }
+
+// Nueva funcionalidad para actualizar contraseña
+if ($tipo == "actualizar_password_reset") {
+    $id_usuario = $_POST['id'];
+    $nueva_password = $_POST['password'];
+    $token_email = $_POST['token'];
+    
+    $arr_Respuesta = array('status' => false, 'msg' => 'Error al actualizar contraseña');
+    
+    // Verificar que el usuario existe y el token es válido
+    $datos_usuario = $objUsuario->buscarUsuarioById($id_usuario);
+    
+    if ($datos_usuario && $datos_usuario->reset_password == 1 && password_verify($datos_usuario->token_password, $token_email)) {
+        // Actualizar contraseña y limpiar datos de reset
+        $resultado = $objUsuario->actualizarPasswordYLimpiarReset($id_usuario, $nueva_password);
+        
+        if ($resultado) {
+            $arr_Respuesta = array(
+                'status' => true, 
+                'msg' => 'Contraseña actualizada correctamente'
+            );
+        } else {
+            $arr_Respuesta = array(
+                'status' => false, 
+                'msg' => 'Error al guardar en la base de datos'
+            );
+        }
+    } else {
+        $arr_Respuesta = array(
+            'status' => false, 
+            'msg' => 'Token inválido o expirado'
+        );
+    }
+    
+    echo json_encode($arr_Respuesta);
+}
+
+
+
 if ($tipo == "listar_usuarios_ordenados_tabla") {
   $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
   if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {

@@ -173,6 +173,7 @@ async function validar_datos_reset_password(params) {
     formData.append('id', id);
     formData.append('token', token);
     formData.append('sesion', '');
+    
     try {
         let respuesta = await fetch(base_url_server + 'src/control/Usuario.php?tipo=validar_datos_reset_password', {
             method: 'POST',
@@ -181,6 +182,7 @@ async function validar_datos_reset_password(params) {
             body: formData
         });
         let json = await respuesta.json();
+        
         if (json.status == false) {
             Swal.fire({
                 type: 'error',
@@ -190,47 +192,118 @@ async function validar_datos_reset_password(params) {
                 footer: '',
                 timer: 1000
             });
-            //let formulario = document.getElementById('frm_reset_password');
-            //formulario.innerHTML=`texto de prueba`;
-            //location.replace(base_url + "login");
+            // Opcional: redirigir al login después de un tiempo
+            setTimeout(() => {
+                location.replace(base_url + "login");
+            }, 1500);
         }
-        //console.log(respuesta);
     } catch (e) {
         console.log("Error al validar datos" + e);
     }
-
-
 }
+
 function validar_imputs_password() {
     let pass1 = document.getElementById('password').value;
     let pass2 = document.getElementById('password1').value;
+    
     if (pass1 !== pass2) {
         Swal.fire({
-                type: 'error',
-                title: 'Error',
-                text: "Contraseña no coincide",
-                footer: '',
-                timer: 1500
-        })
+            type: 'error',
+            title: 'Error',
+            text: "Contraseña no coincide",
+            footer: '',
+            timer: 1500
+        });
         return;
     }
-    if (pass1.length<8 && pass2.length<8) {
+    
+    if (pass1.length < 8 && pass2.length < 8) {
         Swal.fire({
-                type: 'error',
-                title: 'Error',
-                text: "la contraseña tiene que tener 8 caracteres",
-                footer: '',
-                timer: 1500
-        })
+            type: 'error',
+            title: 'Error',
+            text: "La contraseña tiene que tener 8 caracteres",
+            footer: '',
+            timer: 1500
+        });
         return;
     } else {
         actualizar_password();
     }
-    
 }
-async function actualizar_password(params) {
+
+async function actualizar_password() {
+    // Obtener los datos necesarios
+    let id = document.getElementById('data').value;
+    let token = document.getElementById('data2').value;
+    let nueva_password = document.getElementById('password').value;
+    
+    // Crear FormData con la información
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('token', token);
+    formData.append('password', nueva_password);
+    formData.append('sesion', '');
+    
+    try {
+        // Mostrar loading
+        Swal.fire({
+            title: 'Actualizando...',
+            text: 'Por favor espere',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        
+        // Enviar datos al controlador
+        let respuesta = await fetch(base_url_server + 'src/control/Usuario.php?tipo=actualizar_password_reset', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: formData
+        });
+        
+        let json = await respuesta.json();
+        
+        if (json.status == true) {
+            // Éxito - contraseña actualizada
+            Swal.fire({
+                type: 'success',
+                title: 'Éxito',
+                text: json.msg,
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                footer: '',
+                timer: 2000
+            }).then(() => {
+                // Redirigir al login después del éxito
+                location.replace(base_url + "login");
+            });
+        } else {
+            // Error al actualizar
+            Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: json.msg,
+                confirmButtonClass: 'btn btn-confirm mt-2',
+                footer: '',
+                timer: 2000
+            });
+        }
+        
+    } catch (error) {
+        console.log("Error al actualizar contraseña: " + error);
+        Swal.fire({
+            type: 'error',
+            title: 'Error',
+            text: 'Error de conexión. Intente nuevamente.',
+            confirmButtonClass: 'btn btn-confirm mt-2',
+            footer: '',
+            timer: 2000
+        });
+    }
+}
     //enviar informacion de password y id al controlador usuario
     // en el conttrolador recibir informacion y encriptar la nueva contrseña
     // guardar en base de datos y actualizar campo de reset_password= 0 y token_password= 'vacio'
     // notificar a usuario sobre el estado del proceso
-}
