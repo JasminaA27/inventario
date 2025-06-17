@@ -29,6 +29,7 @@ class UsuarioModel
         return $sql;
     }
     
+    //tarea
     // Método mejorado para actualizar contraseña con encriptación
     public function actualizarPassword($id, $password)
     {

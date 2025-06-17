@@ -19,7 +19,7 @@ $objInstitucion = new InstitucionModel();
 $objUsuario = new UsuarioModel();
 
 //variables de sesion
-$id_sesion = $_POST['sesion'];
+$id_sesion = $_REQUEST['sesion'];
 $token = $_POST['token'];
 
 if ($tipo == "listar") {
@@ -88,7 +88,12 @@ if ($tipo == "listar_movimientos_ordenados_tabla") {
                 $arr_contenido[$i]->usuario_registro = $arr_Usuario->nombres_apellidos;
                 $arr_contenido[$i]->fecha_registro = $arr_Ambiente[$i]->fecha_registro;
                 $arr_contenido[$i]->descripcion = $arr_Ambiente[$i]->descripcion;
-                $opciones = '<button type="button" title="Ver" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target=".modal_ver' . $arr_Ambiente[$i]->id . '"><i class="fa fa-eye"></i></button>';
+                $opciones = '<button type="button" title="Ver" class="btn btn-primary waves-effect waves-light" data"-toggle="modal" data-target=".modal_ver' . $arr_Ambiente[$i]->id . '"><i class="fa fa-eye"></i></button>
+               <a href="'.BASE_URL.'imprimir-movimiento/'.$arr_Ambiente[$i]->id.'" class="btn btn-primary btn-sm shadow-sm px-3">
+    <i class="fa fa-print mr-1"></i> </a>
+
+
+                ';
                 $arr_contenido[$i]->options = $opciones;
             }
             $arr_Respuesta['total'] = count($busqueda_filtro);
@@ -203,4 +208,10 @@ if ($tipo == "datos_registro") {
         $arr_Respuesta['msg'] = "Datos encontrados";
     }
     echo json_encode($arr_Respuesta);
+}
+if ($tipo== "buscar_movimiento_id") {
+    if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)){
+        
+    }
+    echo "sesion valida";
 }
