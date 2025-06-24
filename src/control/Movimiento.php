@@ -216,10 +216,26 @@ if ($tipo== "buscar_movimiento_id") {
         $arrMovimiento = $objMovimiento->buscarMovimientoById($id_movimiento);
         $arrAmbOrigen = $objAmbiente->buscarAmbienteById($arrMovimiento->id_ambiente_origen);
         $arrAmbDestino = $objAmbiente->buscarAmbienteById($arrMovimiento->id_ambiente_destino);
-        $arrUsuRegistro = $objUsuario->buscarUsuarioById($arrMovimiento->id_usuario_registro);
-        $arrIes = $objInstitucion->buscarInstitucionById($arrMovimiento->id_ies);
+        $arrUsuario = $objUsuario->buscarUsuarioById($arrMovimiento->id_usuario_registro);
+        $arrIes= $objInstitucion->buscarInstitucionById($arrMovimiento->id_ies);
 
+        //buscar los detalles de movimiento 
+        $arrDetalle = $objMovimiento->buscarDetalle_MovimientoByMovimiento($id_movimiento);
+        $arrat_bienes = array ();//este arrary enviar dentro del array respuesta hacia la vista que tenga tofdos los atributos del bien todo tod de la bse de datos agregar dosm lineas de codigo
+        foreach ($arrDetalle as $bien) {
+            $id_bien =  $bien-> $id_bien;
+            $res_bien = $objBien->buscarBienById($id_bien);
+        }
+
+        $arr_Respuesta['movimiento'] = $arrMovimiento;
+        $arr_Respuesta['amb_origen'] = $arrAmbOrigen;
+        $arr_Respuesta['amb_destino'] = $arrAmbDestino;
+        $arr_Respuesta['datos_usuario'] = $arrUsuario;
+        $arr_Respuesta['datos_ies'] = $arrIes;
+        $arr_Respuesta['detalle'] = $arrDetalle;
+        $arr_Respuesta['status'] = true;
+        $arr_Respuesta['msg'] = 'correcto';
 
     }
-    echo json_encode($arrUsuRegistro);
+    echo json_encode($arr_Respuesta);
 }
