@@ -28,7 +28,149 @@ if (!isset($ruta[1]) || $ruta[1]=="") {
         echo "cURL Error #:" . $err; // mostramos el error
     } else {
         $respuesta = json_decode($response);
-        print_r( $respuesta) ; // en caso de funcionar correctamente
+        //print_r( $respuesta) ; // en caso de funcionar correctamente
         /*echo $_SESSION['sesion_sigi_id'];
         echo $_SESSION['sesion_sigi_token'];*/
+
+        
+        ?>
+        <!---
+        <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Papeleta de Rotación de Bienes</title>
+  <style>
+    body {
+      background-color: white;
+      color:  #1e1e1e; 
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .datos {
+      margin-bottom: 20px;
+    }
+    .datos p {
+      margin: 5px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+    th, td {
+      border: 1px solid  #1e1e1e;
+      padding: 8px;
+      text-align: center;
+    }
+    .firmas {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+    }
+    .firmas div {
+      text-align: center;
+      width: 45%;
+    }
+    .ubicacion {
+      text-align: right;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>PAPELETA DE ROTACIÓN DE BIENES</h2>
+
+  <div class="datos">
+    <p><strong>ENTIDAD:</strong> DIRECCION REGIONAL DE EDUCACION - AYACUCHO</p>
+    <p><strong>AREA:</strong> OFICINA DE ADMINISTRACIÓN</p>
+    <p><strong>ORIGEN:</strong><?php echo $respuesta->amb_origen->codigo."-". $respuesta->amb_origen->detalle;?></p>
+    <p><strong>DESTINO:</strong><?php echo $respuesta->amb_destino->codigo ."-". $respuesta->amb_destino->detalle;?></p>
+    <p><strong>MOTIVO (*):</strong><?php echo $respuesta->movimiento->descripcion?></p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ITEM</th>
+        <th>CÓDIGO PATRIMONIAL</th>
+        <th>NOMBRE DEL BIEN</th>
+        <th>MARCA</th>
+        <th>COLOR</th>
+        <th>MODELO</th>
+        <th>ESTADO</th>
+      </tr>
+    </thead>
+    <tbody>
+   <?php
+$contador = 1;
+foreach ($respuesta->detalle as $bien) {
+    echo "<tr>";
+    echo "<td>" . $contador . "</td>";
+    echo "<td>" . $bien->cod_patrimonial . "</td>";
+    echo "<td>" . $bien->denominacion . "</td>";
+    echo "<td>" . $bien->marca . "</td>";
+    echo "<td>" . $bien->color . "</td>";
+    echo "<td>" . $bien->modelo . "</td>";
+    echo "<td>" . $bien->estado . "</td>";
+    echo "</tr>";
+}
+?>
+    </tbody>
+  </table>
+
+ <?php
+// Obtener la fecha del movimiento (formato esperado: 'YYYY-MM-DD' o 'YYYY-MM-DD HH:MM:SS')
+$fechaMovimiento = new DateTime($respuesta->movimiento->fecha_registro);
+
+// Meses en español
+$meses = [
+    1 => 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+         'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+];
+
+// Extraer partes
+$dia = $fechaMovimiento->format('d');
+$mes = $meses[(int)$fechaMovimiento->format('m')];
+$anio = $fechaMovimiento->format('Y');
+?>
+
+<div class="ubicacion">
+  <p>Ayacucho, <?php echo "$dia de $mes del $anio"; ?></p>
+</div>
+
+<div class="firmas">
+  <div>
+    <p>------------------------------</p>
+    <p>ENTREGUÉ CONFORME</p>
+  </div>
+  <div>
+    <p>------------------------------</p>
+    <p>RECIBÍ CONFORME</p>
+  </div>
+</div>
+
+
+</body>
+</html>
+     -->
+    <?php
+    require_once('./vendor/tecnickcom/tcpdf/tcpdf.php');
+    $pdf = new TCPDF();
+    // set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Jasmina Avalos');
+    $pdf->SetTitle('Reporte de movimientos');
+     // asignar margenes
+    $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+
+    //
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+
     }

@@ -89,7 +89,7 @@ if ($tipo == "listar_movimientos_ordenados_tabla") {
                 $arr_contenido[$i]->fecha_registro = $arr_Ambiente[$i]->fecha_registro;
                 $arr_contenido[$i]->descripcion = $arr_Ambiente[$i]->descripcion;
                 $opciones = '<button type="button" title="Ver" class="btn btn-primary waves-effect waves-light" data"-toggle="modal" data-target=".modal_ver' . $arr_Ambiente[$i]->id . '"><i class="fa fa-eye"></i></button>
-               <a href="'.BASE_URL.'imprimir-movimiento/'.$arr_Ambiente[$i]->id.'" class="btn btn-primary btn-sm shadow-sm px-3">
+               <a href="' . BASE_URL . 'imprimir-movimiento/' . $arr_Ambiente[$i]->id . '" class="btn btn-primary btn-sm shadow-sm px-3">
     <i class="fa fa-print mr-1"></i> </a>
 
 
@@ -209,25 +209,23 @@ if ($tipo == "datos_registro") {
     }
     echo json_encode($arr_Respuesta);
 }
-if ($tipo== "buscar_movimiento_id") {
-     $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
-    if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)){
+if ($tipo == "buscar_movimiento_id") {
+    $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
+    if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
         $id_movimiento = $_REQUEST['data'];
         $arrMovimiento = $objMovimiento->buscarMovimientoById($id_movimiento);
         $arrAmbOrigen = $objAmbiente->buscarAmbienteById($arrMovimiento->id_ambiente_origen);
         $arrAmbDestino = $objAmbiente->buscarAmbienteById($arrMovimiento->id_ambiente_destino);
         $arrUsuario = $objUsuario->buscarUsuarioById($arrMovimiento->id_usuario_registro);
-        $arrIes= $objInstitucion->buscarInstitucionById($arrMovimiento->id_ies);
+        $arrIes = $objInstitucion->buscarInstitucionById($arrMovimiento->id_ies);
 
         //buscar los detalles de movimiento 
         $arrDetalle = $objMovimiento->buscarDetalle_MovimientoByMovimiento($id_movimiento);
-        $arr_bienes = array ();//este arrary enviar dentro del array respuesta hacia la vista que tenga tofdos los atributos del bien todo tod de la bse de datos agregar dosm lineas de codigo
+        $arr_bienes = array(); //este arrary enviar dentro del array respuesta hacia la vista que tenga todos los atributos del bien todo tod de la bse de datos agregar dosm lineas de codigo
         foreach ($arrDetalle as $bien) {
-            $id_bien =  $bien-> $id_bien;
+            $id_bien =  $bien->id_bien;
             $res_bien = $objBien->buscarBienById($id_bien);
-            if ($res_bien) {
-                array_push($arr_bienes,$res_bien);
-            }
+            array_push($arr_bienes, $res_bien);
         }
 
         $arr_Respuesta['movimiento'] = $arrMovimiento;
@@ -235,11 +233,9 @@ if ($tipo== "buscar_movimiento_id") {
         $arr_Respuesta['amb_destino'] = $arrAmbDestino;
         $arr_Respuesta['datos_usuario'] = $arrUsuario;
         $arr_Respuesta['datos_ies'] = $arrIes;
-        $arr_Respuesta['detalle'] = $arrDetalle;
-        $arr_Respuesta['bienes'] = $arr_bienes;
+        $arr_Respuesta['detalle'] = $arr_bienes;
         $arr_Respuesta['status'] = true;
         $arr_Respuesta['msg'] = 'correcto';
-
     }
     echo json_encode($arr_Respuesta);
 }
