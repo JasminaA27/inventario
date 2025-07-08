@@ -32,9 +32,8 @@ if (!isset($ruta[1]) || $ruta[1]=="") {
         /*echo $_SESSION['sesion_sigi_id'];
         echo $_SESSION['sesion_sigi_token'];*/
 
-        
-        ?>
-        <!---
+        $contenido_pdf = '';
+        $contenido_pdf .='
         <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -89,9 +88,9 @@ if (!isset($ruta[1]) || $ruta[1]=="") {
   <div class="datos">
     <p><strong>ENTIDAD:</strong> DIRECCION REGIONAL DE EDUCACION - AYACUCHO</p>
     <p><strong>AREA:</strong> OFICINA DE ADMINISTRACIÓN</p>
-    <p><strong>ORIGEN:</strong><?php echo $respuesta->amb_origen->codigo."-". $respuesta->amb_origen->detalle;?></p>
-    <p><strong>DESTINO:</strong><?php echo $respuesta->amb_destino->codigo ."-". $respuesta->amb_destino->detalle;?></p>
-    <p><strong>MOTIVO (*):</strong><?php echo $respuesta->movimiento->descripcion?></p>
+    <p><strong>ORIGEN:</strong> '. $respuesta->amb_origen->codigo."-". $respuesta->amb_origen->detalle.'</p>
+    <p><strong>DESTINO:</strong>'. $respuesta->amb_destino->codigo ."-". $respuesta->amb_destino->detalle.'</p>
+    <p><strong>MOTIVO (*):</strong>'. $respuesta->movimiento->descripcion.'</p>
   </div>
 
   <table>
@@ -107,24 +106,26 @@ if (!isset($ruta[1]) || $ruta[1]=="") {
       </tr>
     </thead>
     <tbody>
+        
+        ';
+        ?>
+
+        
    <?php
 $contador = 1;
 foreach ($respuesta->detalle as $bien) {
-    echo "<tr>";
-    echo "<td>" . $contador . "</td>";
-    echo "<td>" . $bien->cod_patrimonial . "</td>";
-    echo "<td>" . $bien->denominacion . "</td>";
-    echo "<td>" . $bien->marca . "</td>";
-    echo "<td>" . $bien->color . "</td>";
-    echo "<td>" . $bien->modelo . "</td>";
-    echo "<td>" . $bien->estado . "</td>";
-    echo "</tr>";
+    $contenido_pdf.= "<tr>";
+    $contenido_pdf.= "<td>" . $contador . "</td>";
+    $contenido_pdf.= "<td>" . $bien->cod_patrimonial . "</td>";
+    $contenido_pdf.= "<td>" . $bien->denominacion . "</td>";
+    $contenido_pdf.= "<td>" . $bien->marca . "</td>";
+    $contenido_pdf.= "<td>" . $bien->color . "</td>";
+    $contenido_pdf.= "<td>" . $bien->modelo . "</td>";
+    $contenido_pdf.= "<td>" . $bien->estado . "</td>";
+    $contenido_pdf.= "</tr>";
+    $contador += 1;
 }
-?>
-    </tbody>
-  </table>
 
- <?php
 // Obtener la fecha del movimiento (formato esperado: 'YYYY-MM-DD' o 'YYYY-MM-DD HH:MM:SS')
 $fechaMovimiento = new DateTime($respuesta->movimiento->fecha_registro);
 
@@ -138,13 +139,16 @@ $meses = [
 $dia = $fechaMovimiento->format('d');
 $mes = $meses[(int)$fechaMovimiento->format('m')];
 $anio = $fechaMovimiento->format('Y');
-?>
 
-<div class="ubicacion">
-  <p>Ayacucho, <?php echo "$dia de $mes del $anio"; ?></p>
+$contenido_pdf .= "
+</tbody>
+  </table>
+
+<div class='ubicacion'>
+  <p>Ayacucho, $dia de $mes del $anio</p>
 </div>
 
-<div class="firmas">
+<div class='firmas'>
   <div>
     <p>------------------------------</p>
     <p>ENTREGUÉ CONFORME</p>
@@ -158,7 +162,10 @@ $anio = $fechaMovimiento->format('Y');
 
 </body>
 </html>
-     -->
+";
+     ?>
+    
+
     <?php
     require_once('./vendor/tecnickcom/tcpdf/tcpdf.php');
     $pdf = new TCPDF();
@@ -169,8 +176,25 @@ $anio = $fechaMovimiento->format('Y');
      // asignar margenes
     $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 
-    //
+    //asignar salto de pagina automatica
     $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+
+    // set font
+    $pdf->SetFont('helvetica', 'B', 12);
+
+    // add a page
+    $pdf->AddPage();
+
+    // output the HTML content
+    $pdf->writeHTML($contenido_pdf, true, false, true, false, '');
+    
+    ob_clean();
+
+
+    //Close and output PDF document
+    $pdf->Output('reporte_movimiento.pdf', 'I');
+
 
 
     }
