@@ -7,7 +7,7 @@ require_once "./src/control/vistas_control.php";
 $mostrar = new vistasControlador();
 $vista = $mostrar->obtenerVistaControlador();
 
-$resert = '';
+$reset = '';
 if ($vista == "reset-password") {
     $reset = "reset-password";
 }
