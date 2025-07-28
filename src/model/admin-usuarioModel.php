@@ -10,7 +10,17 @@ class UsuarioModel
         $this->conexion = new Conexion();
         $this->conexion = $this->conexion->connect();
     }
-    
+    //listar usuario 
+        public function listarUsuario()
+    {
+        $arrRespuesta = array();
+        $sql = $this->conexion->query("SELECT * FROM usuarios ORDER BY nombres_apellidos ASC ");
+        while ($objeto = $sql->fetch_object()) {
+            array_push($arrRespuesta, $objeto);
+        }
+        return $arrRespuesta;
+    }
+
     public function registrarUsuario($dni, $apellidos_nombres,$correo, $telefono,$password)
     {
         $password_secure = password_hash($password, PASSWORD_DEFAULT);

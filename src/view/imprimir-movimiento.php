@@ -4,35 +4,6 @@ if (!isset($ruta[1]) || $ruta[1] == "") {
     header("location: " . BASE_URL . "movimientos");
     exit;
 }
-
-// Petición cURL
-$curl = curl_init();
-curl_setopt_array($curl, array(
-    CURLOPT_URL => BASE_URL_SERVER . "src/control/Movimiento.php?tipo=buscar_movimiento_id&sesion=" . $_SESSION['sesion_id'] . "&token=" . $_SESSION['sesion_token'] . "&data=$ruta[1]",
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_ENCODING => "",
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => "GET",
-    CURLOPT_HTTPHEADER => array(
-        "x-rapidapi-host: " . BASE_URL_SERVER,
-        "x-rapidapi-key: XXXX"
-    ),
-));
-$response = curl_exec($curl);
-$err = curl_error($curl);
-curl_close($curl);
-
-if ($err) {
-    echo "cURL Error #:" . $err;
-    exit;
-}
-
-$respuesta = json_decode($response);
-
-// Incluir TCPDF y crear clase extendida
 require_once('./vendor/tecnickcom/tcpdf/tcpdf.php');
 
 class MYPDF extends TCPDF {
@@ -76,8 +47,31 @@ class MYPDF extends TCPDF {
         
     }
 }
+// Petición cURL
+$curl = curl_init();
+curl_setopt_array($curl, array(
+    CURLOPT_URL => BASE_URL_SERVER . "src/control/Movimiento.php?tipo=buscar_movimiento_id&sesion=" . $_SESSION['sesion_id'] . "&token=" . $_SESSION['sesion_token'] . "&data=$ruta[1]",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "GET",
+    CURLOPT_HTTPHEADER => array(
+        "x-rapidapi-host: " . BASE_URL_SERVER,
+        "x-rapidapi-key: XXXX"
+    ),
+));
+$response = curl_exec($curl);
+$err = curl_error($curl);
+curl_close($curl);
 
-
+if ($err) {
+    echo "cURL Error #:" . $err;
+    exit;
+}else{
+  $respuesta = json_decode($response);
 // Crear contenido HTML del cuerpo del PDF
 $contenido_pdf = '
 <style>
@@ -128,19 +122,24 @@ $contenido_pdf = '
   </thead>
   <tbody>';
 
-$contador = 1;
-foreach ($respuesta->detalle as $bien) {
-    $contenido_pdf .= "<tr>";
-    $contenido_pdf .= "<td>{$contador}</td>";
-    $contenido_pdf .= "<td>{$bien->cod_patrimonial}</td>";
-    $contenido_pdf .= "<td>{$bien->denominacion}</td>";
-    $contenido_pdf .= "<td>{$bien->marca}</td>";
-    $contenido_pdf .= "<td>{$bien->color}</td>";
-    $contenido_pdf .= "<td>{$bien->modelo}</td>";
-    $contenido_pdf .= "<td>{$bien->estado}</td>";
-    $contenido_pdf .= "</tr>";
-    $contador++;
+if (!empty($respuesta->detalle)) {
+    $contador = 1;
+    foreach ($respuesta->detalle as $bien) {
+        $contenido_pdf .= "<tr>";
+        $contenido_pdf .= "<td>{$contador}</td>";
+        $contenido_pdf .= "<td>{$bien->cod_patrimonial}</td>";
+        $contenido_pdf .= "<td>{$bien->denominacion}</td>";
+        $contenido_pdf .= "<td>{$bien->marca}</td>";
+        $contenido_pdf .= "<td>{$bien->color}</td>";
+        $contenido_pdf .= "<td>{$bien->modelo}</td>";
+        $contenido_pdf .= "<td>{$bien->estado}</td>";
+        $contenido_pdf .= "</tr>";
+        $contador++;
+    }
+} else {
+    $contenido_pdf .= "<tr><td colspan='7'>No hay datos para mostrar</td></tr>";
 }
+
 
 $contenido_pdf .= '</tbody>
 </table>';
@@ -154,19 +153,7 @@ $meses = [
 $dia = $fechaMovimiento->format('d');
 $mes = $meses[(int)$fechaMovimiento->format('m')];
 $anio = $fechaMovimiento->format('Y');
-$contador = 1;
-foreach ($respuesta->detalle as $bien) {
-    $contenido_pdf .= "<tr>";
-    $contenido_pdf .= "<td>{$contador}</td>";
-    $contenido_pdf .= "<td>{$bien->cod_patrimonial}</td>";
-    $contenido_pdf .= "<td>{$bien->denominacion}</td>";
-    $contenido_pdf .= "<td>{$bien->marca}</td>";
-    $contenido_pdf .= "<td>{$bien->color}</td>";
-    $contenido_pdf .= "<td>{$bien->modelo}</td>";
-    $contenido_pdf .= "<td>{$bien->estado}</td>";
-    $contenido_pdf .= "</tr>";
-    $contador++;
-}
+
 
 $contenido_pdf .= '</tbody>
 </table>';
@@ -201,6 +188,12 @@ $pdf->SetTitle('Papeleta de Rotación de Bienes');
 $pdf->SetMargins(15, 35, 15); // márgenes: izquierda, arriba, derecha
 $pdf->SetAutoPageBreak(TRUE, 25); // margen inferior
 $pdf->AddPage();
+
 $pdf->writeHTML($contenido_pdf, true, false, true, false, '');
+ob_end_clean();
 $pdf->Output('reporte_movimiento.pdf', 'I');
+}
+
+
+
 ?>

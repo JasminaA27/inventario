@@ -1,6 +1,4 @@
 <?php
-$ruta = explode("/", $_GET['views']);
-
 
 // Petición cURL
 $curl = curl_init();
@@ -136,30 +134,19 @@ foreach ($movimientos as $movimiento) {
 $contenido_pdf .= '</tbody>
 </table>';
 
-
-$fechaMovimiento = new DateTime($respuesta->movimiento->fecha_registro);
+date_default_timezone_set('America/Lima');
+$fechaActual = new DateTime();  // Fecha y hora actual en Lima
 $meses = [
     1 => 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
 ];
-$dia = $fechaMovimiento->format('d');
-$mes = $meses[(int)$fechaMovimiento->format('m')];
-$anio = $fechaMovimiento->format('Y');
-
-
+$dia = $fechaActual->format('d');
+$mes = $meses[(int)$fechaActual->format('m')];
+$anio = $fechaActual->format('Y');
 
 $contenido_pdf .= '</tbody>
 </table>';
 
-
-$fechaMovimiento = new DateTime($respuesta->movimiento->fecha_registro);
-$meses = [
-    1 => 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-];
-$dia = $fechaMovimiento->format('d');
-$mes = $meses[(int)$fechaMovimiento->format('m')];
-$anio = $fechaMovimiento->format('Y');
 $contenido_pdf .= "
 <br><br>
 <div align='right'>Ayacucho, $dia de $mes del $anio</div>
@@ -171,8 +158,6 @@ c
 ";
 
 
-
-
 // Crear el PDF
 $pdf = new MYPDF();
 $pdf->SetCreator(PDF_CREATOR);
@@ -182,5 +167,6 @@ $pdf->SetMargins(15, 35, 15); // márgenes: izquierda, arriba, derecha
 $pdf->SetAutoPageBreak(TRUE, 25); // margen inferior
 $pdf->AddPage();
 $pdf->writeHTML($contenido_pdf, true, false, true, false, '');
+ob_end_clean();
 $pdf->Output('reporte_movimiento.pdf', 'I');
 ?>

@@ -231,6 +231,14 @@ if ($tipo == "listarBienes") {
         $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)){
         $arr_Bienes = $objBien->listarBienes();
+        
+        foreach ($arr_Bienes as $bien) {
+           $ingresoBien = $objIngreso->buscarIngresoBienesById($bien->id_ingreso_bienes);
+           $ambiente = $objAmbiente->buscarAmbienteById($bien->id_ambiente);
+
+           $bien->ingresoname = $ingresoBien->detalle;
+           $bien->ambientename = $ambiente->detalle; 
+        }
         $arr_Respuesta['bienes'] = $arr_Bienes;
         $arr_Respuesta['status'] = true;
         $arr_Respuesta['msg'] = 'correcto';

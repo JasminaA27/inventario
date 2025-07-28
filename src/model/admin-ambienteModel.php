@@ -10,6 +10,16 @@ class AmbienteModel
         $this->conexion = new Conexion();
         $this->conexion = $this->conexion->connect();
     }
+
+    public function listarAmbientes(){
+        $arrRespuesta = array();
+        $sql = $this->conexion->query("SELECT * FROM ambientes_institucion");
+        while ($objeto = $sql->fetch_object()) {
+            array_push($arrRespuesta, $objeto);
+        }
+        return $arrRespuesta;
+    }
+
     public function registrarAmbiente($institucion, $encargado, $codigo, $detalle, $otros_detalle)
     {
         $sql = $this->conexion->query("INSERT INTO ambientes_institucion (id_ies,encargado,codigo, detalle, otros_detalle) VALUES ('$institucion','$encargado','$codigo','$detalle','$otros_detalle')");

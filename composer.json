@@ -1,20 +1,19 @@
 {
-    "name": "yucra/sigi",
-    "description": "sistema integrado de gestion institucional IES PERU",
+    "name": "yanet/inventario",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Yucra\\Sigi\\": "src/"
+            "Yanet\\Inventario\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "jasmina avalos"
+            "name": "JasminaA27",
+            "email": "avalosyanet123@gmail.com"
         }
     ],
     "require": {
-        "phpmailer/phpmailer": "^6.9",
-        "tecnickcom/tcpdf": "^6.9",
-        "phpoffice/phpspreadsheet": "^1.29"
+        "phpmailer/phpmailer": "^6.10",
+        "tecnickcom/tcpdf": "^6.10"
     }
 }

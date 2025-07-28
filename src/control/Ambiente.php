@@ -13,8 +13,8 @@ $objAdmin = new AdminModel();
 $objInstitucion = new InstitucionModel();
 
 //variables de sesion
-$id_sesion = $_POST['sesion'];
-$token = $_POST['token'];
+$id_sesion = $_REQUEST['sesion'];
+$token = $_REQUEST['token'];
 
 if ($tipo == "listar") {
     $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
@@ -40,6 +40,25 @@ if ($tipo == "listar") {
     }
     echo json_encode($arr_Respuesta);
 }
+
+if ($tipo == "listarAmbientes") {
+        $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
+    if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)){
+
+        $arr_ambientes = $objAmbiente->listarAmbientes();
+
+        foreach ($arr_ambientes as $ambiente) {
+           $institucion = $objInstitucion->buscarInstitucionById($ambiente->id_ies);
+    
+           $ambiente->institucionname = $institucion->nombre;
+        }
+        $arr_Respuesta['ambientes'] = $arr_ambientes;
+        $arr_Respuesta['status'] = true;
+        $arr_Respuesta['msg'] = 'correcto';
+    }
+    echo json_encode($arr_Respuesta);
+}
+
 if ($tipo == "listar_ambientes_ordenados_tabla") {
     $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
     if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {
