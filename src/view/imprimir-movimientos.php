@@ -76,6 +76,8 @@ class MYPDF extends TCPDF {
 
 // Crear contenido HTML del cuerpo del PDF
 $contenido_pdf = '
+<br></br>
+
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -99,7 +101,7 @@ $contenido_pdf = '
 
     }
 </style>
-<p class="p"> PAPELETA DE ROTACIÓN DE BIENES</p>
+<p class="p"> MOVIMIENTOS</p>
 
 
 
@@ -107,12 +109,12 @@ $contenido_pdf = '
   <thead>
     <tr>
       <th>ITEM</th>
-      <th>id_ambiente_origen</th>
-      <th>id_ambiente_destino</th>
-      <th>id_usuario_registro</th>
-      <th>fecha_registro</th>
-      <th>descripcion</th>
-      <th>id_ies</th>
+      <th>ID_AMBIENTE_ORIGEN</th>
+      <th>ID_AMBIENTE_DESTINO</th>
+      <th>ID_USUARIO_REGISTRO</th>
+      <th>FECHA_REGISTRO</th>
+      <th>DESCRIPCIÓN</th>
+      <th>ID_IES</th>
     </tr>
   </thead>
   <tbody>';
@@ -147,26 +149,29 @@ $anio = $fechaActual->format('Y');
 $contenido_pdf .= '</tbody>
 </table>';
 
-$contenido_pdf .= "
-<br><br>
-<div align='right'>Ayacucho, $dia de $mes del $anio</div>
-
-c
-
-<p style='text-align: center;'>------------------------------                                                             ------------------------------</p>  <br>   
-<p style='text-align: center;'>ENTREGUÉ CONFORME                                                          RECIBÍ CONFORME</p>
-";
 
 
 // Crear el PDF
 $pdf = new MYPDF();
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('DRE Ayacucho');
-$pdf->SetTitle('Papeleta de Rotación de Bienes');
+$pdf->SetTitle('MOVIMIENTOS');
 $pdf->SetMargins(15, 35, 15); // márgenes: izquierda, arriba, derecha
 $pdf->SetAutoPageBreak(TRUE, 25); // margen inferior
 $pdf->AddPage();
 $pdf->writeHTML($contenido_pdf, true, false, true, false, '');
+
+//firma
+$pdf->Ln(10);
+$pdf->SetFont('helvetica', '', 11);
+$pdf->Cell(0, 5, 'Ayacucho, '.$dia.' de '.$mes.' del '.$anio, 0, 1, 'R');
+
+$pdf->Ln(20);
+$pdf->Cell(85, 5, '------------------------------', 0, 0, 'C');
+$pdf->Cell(85, 5, '------------------------------', 0, 1, 'C');
+
+$pdf->Cell(85, 5, 'ENTREGUÉ CONFORME', 0, 0, 'C');
+$pdf->Cell(85, 5, 'RECIBÍ CONFORME', 0, 1, 'C');
 ob_end_clean();
 $pdf->Output('reporte_movimiento.pdf', 'I');
 ?>

@@ -55,11 +55,11 @@ class MYPDF extends TCPDF {
         }
 
         // Texto centrado en el encabezado
-        $this->SetY(10);
+        $this->SetY(18);
         $this->SetFont('helvetica', 'B', 12);
-        $this->Cell(0, 5, 'DIRECCIÓN REGIONAL DE EDUCACIÓN - AYACUCHO', 0, 1, 'C');
+        $this->Cell(0, 6, 'DIRECCIÓN REGIONAL DE EDUCACIÓN - AYACUCHO', 0, 1, 'C');
         $this->SetFont('helvetica', '', 10);
-        $this->Cell(0, 5, 'DIRECCIÓN DE ADMINISTRACIÓN', 0, 1, 'C');
+        $this->Cell(0, 6, 'DIRECCIÓN DE ADMINISTRACIÓN', 0, 1, 'C');
 
         // Espacio después del encabezado
         $this->Ln(5);
@@ -76,6 +76,7 @@ class MYPDF extends TCPDF {
 
 // Crear contenido HTML del cuerpo del PDF
 $contenido_pdf = '
+
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -99,7 +100,7 @@ $contenido_pdf = '
 
     }
 </style>
-<p class="p"> PAPELETA DE LISTA DE BIENES</p>
+<p class="p">LISTA DE BIENES</p>
 
 
 
@@ -151,26 +152,30 @@ $anio = $fechaActual->format('Y');
 
 $contenido_pdf .= '</tbody>
 </table>';
-$contenido_pdf .= "
-<br><br>
-<div align='right'>Ayacucho, $dia de $mes del $anio</div>
 
-c
-
-<p style='text-align: center;'>------------------------------                                                             ------------------------------</p>  <br>   
-<p style='text-align: center;'>ENTREGUÉ CONFORME                                                          RECIBÍ CONFORME</p>
-";
 
 
 // Crear el PDF
 $pdf = new MYPDF();
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('DRE Ayacucho');
-$pdf->SetTitle('PAPELETA DE LISTA DE BIENES');
+$pdf->SetTitle('LISTA DE BIENES');
 $pdf->SetMargins(15, 35, 15); // márgenes: izquierda, arriba, derecha
 $pdf->SetAutoPageBreak(TRUE, 25); // margen inferior
 $pdf->AddPage();
 $pdf->writeHTML($contenido_pdf, true, false, true, false, '');
+
+//firma
+$pdf->Ln(10);
+$pdf->SetFont('helvetica', '', 11);
+$pdf->Cell(0, 5, 'Ayacucho, '.$dia.' de '.$mes.' del '.$anio, 0, 1, 'R');
+
+$pdf->Ln(20);
+$pdf->Cell(85, 5, '------------------------------', 0, 0, 'C');
+$pdf->Cell(85, 5, '------------------------------', 0, 1, 'C');
+
+$pdf->Cell(85, 5, 'ENTREGUÉ CONFORME', 0, 0, 'C');
+$pdf->Cell(85, 5, 'RECIBÍ CONFORME', 0, 1, 'C');
 ob_end_clean();
 $pdf->Output('lista_bieness.pdf', 'I');
 ?>
