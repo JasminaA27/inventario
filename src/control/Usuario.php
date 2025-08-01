@@ -24,6 +24,7 @@ $objAdmin = new AdminModel();
 //variables de sesion
 $id_sesion = $_REQUEST['sesion'];
 $token = $_REQUEST['token'];
+
 if ($tipo=="listarUsuario") {
    $arr_Respuesta = array('status' => false, 'msg' => 'Error_Sesion');
   if ($objSesion->verificar_sesion_si_activa($id_sesion, $token)) {

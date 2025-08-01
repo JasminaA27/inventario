@@ -57,13 +57,13 @@ if ($vista == "login" || $vista == "404" || $vista == "reset-password") {
 } else {
     if ($vista != './src/view/imprimir-movimiento.php' && $vista != './src/view/reporte-bienes.php'&& $vista != './src/view/imprimir-ambiente.php'
     && $vista != './src/view/imprimir-institucion.php'&& $vista != './src/view/imprimir-usuario.php'&& $vista != './src/view/imprimir-movimientos.php'
-    && $vista != './src/view/imprimir-usuario.php'&& $vista != './src/view/imprimir-bien.php') {
+    && $vista != './src/view/imprimir-usuario.php'&& $vista != './src/view/imprimir-bien.php' && $vista != './src/view/reporte-usuarios.php'&& $vista != './src/view/reporte-movimientos.php'&& $vista != './src/view/reporte-instituciones.php'&& $vista != './src/view/reporte-ambientes.php') {
         include "./src/view/include/header.php";
     }
     include $vista;
     if ($vista != './src/view/imprimir-movimiento.php' && $vista != './src/view/reporte-bienes.php'&& $vista != './src/view/imprimir-ambiente.php'
     && $vista != './src/view/imprimir-institucion.php'&& $vista != './src/view/imprimir-usuario.php'&& $vista != './src/view/imprimir-movimientos.php'
-    && $vista != './src/view/imprimir-usuario.php'&& $vista != './src/view/imprimir-bien.php') {
+    && $vista != './src/view/imprimir-usuario.php'&& $vista != './src/view/imprimir-bien.php'&& $vista != './src/view/reporte-usuarios.php'&& $vista != './src/view/reporte-movimientos.php'&& $vista != './src/view/reporte-instituciones.php'&& $vista != './src/view/reporte-ambientes.php') {
         include "./src/view/include/footer.php";
     }
 }
